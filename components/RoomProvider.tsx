@@ -17,9 +17,9 @@ function RoomProvider({roomId, children}: {roomId: string; children: React.React
         }}
     >
         <ClientSideSuspense fallback={<LoadingSpinner />}>
-        <LiveCursorProvider>
-            {children}
-        </LiveCursorProvider>
+            <LiveCursorProvider>
+                {children}
+            </LiveCursorProvider>
         </ClientSideSuspense>
     </RoomProviderWrapper>
   )

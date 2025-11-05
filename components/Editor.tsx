@@ -24,26 +24,19 @@ function BlockNote({ doc, provider, darkMode}: EditorProps) {
     const userInfo = useSelf((me) => me.info);
 
     const editor: BlockNoteEditor = useCreateBlockNote({
-        collaboration:
-            doc && provider
-                ? {
-                    provider,
-                    fragment: doc.getXmlFragment("document-store"),
-                    user: {
-                    name: userInfo?.name ?? "Anonymous",
-                    color: stringToColor(userInfo?.email ?? "anonymous@example.com"),
-                    },
-                }
-                : undefined
+        collaboration:{
+            provider,
+            fragment: doc.getXmlFragment("document-store"),
+            user: {
+                name: userInfo?.name ?? "Anonymous",
+                color: stringToColor(userInfo?.email ?? "anonymous@example.com"),
+            },
+        },
     });
-
 
     return (
         <div className="relative max-w-6xl mx-auto">
-            <BlockNoteView
-                editor={editor}
-                theme={darkMode? "dark" : "light"}
-            />
+            <BlockNoteView className="min-h-screen" editor={editor} theme={darkMode? "dark" : "light"} />
         </div>
     )
 }
@@ -64,9 +57,13 @@ function Editor() {
             yDoc?.destroy();
             yProvider?.destroy();
         };
-    }, [room])
+    }, [room]);
 
-    const style = `hoever:text-white ${
+    if (!doc || !provider) {
+        return null;
+    }
+
+    const style = `hover:text-white ${
         darkMode
             ? "text-gray-700 bg-gray-100 hover:bg-gray-300 hover:text-gray-700"
             : "text-gray-300 bg-gray-700 hover:bg-gray-100 hover:text-gray-700"
@@ -85,10 +82,7 @@ function Editor() {
         </div>
 
         {/* BlockNote */}
-        {doc && provider && (
-            <BlockNote doc={doc} provider={provider} darkMode={darkMode} />
-        )}
-
+        <BlockNote doc={doc} provider={provider} darkMode={darkMode} />
     </div>
   )
 }

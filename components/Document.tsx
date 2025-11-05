@@ -7,11 +7,16 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import Editor from "./Editor";
+import useOwner from "@/lib/useOwner";
+import DeleteDocument from "./DeleteDocument";
+import InviteUser from "./InviteUser";
 
 function Document({ id }: { id: string }) {
     const [data, loading, error] = useDocumentData(doc(db, "documents", id));
     const [input, setInput] = useState("");
     const [isUpdating, startTransition] = useTransition();
+    const isOwner = useOwner();
+
     
 
     useEffect(() => {
@@ -42,7 +47,17 @@ function Document({ id }: { id: string }) {
                 <Button disabled={isUpdating} type="submit">
                     {isUpdating ? "Updating" : "Update"}
                 </Button>
+                
                 {/* if - is owner && InviteUser, DeleteDocument */}
+                {isOwner && (
+                        <>
+                            <InviteUser />
+                            <DeleteDocument />
+                        </>
+                    )
+                }
+
+
             </form>
 
         </div>
@@ -51,6 +66,8 @@ function Document({ id }: { id: string }) {
             {/* Manage users */}
             {/* Avatars */}
         </div>
+
+        <hr className="pb-10" />
 
         {/* Collaborative Editor */}
         <Editor />

@@ -9,6 +9,6 @@ function LiveBlocksProvider({children}:{children: React.ReactNode}) {
 
   return (
     <LiveblocksProvider throttle={16} authEndpoint={'/auth-endpoint'} >{children}</LiveblocksProvider>
-  )
+  );
 }
 export default LiveBlocksProvider

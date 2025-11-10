@@ -13,7 +13,7 @@ import { FormEvent, startTransition, useState, useTransition } from "react";
 import { Button } from "./ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { usePathname, useRouter } from "next/navigation";
-import { deleteDocument } from "@/actions/actions";
+import { deleteDocument, inviteUserToDocument } from "@/actions/actions";
 import { toast } from "sonner";
 import { Input } from "./ui/input";
 
@@ -34,7 +34,7 @@ function InviteUser() {
         if (!roomId) return;
 
         startTransition(async () => {
-            const { success } = await InviteUSerToDocument(roomId, email);
+            const { success } = await inviteUserToDocument(roomId, email);
 
             if (success) {
                 setIsOpen(false);
